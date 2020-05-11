@@ -17,16 +17,20 @@ app.get('./data/location', (request, response) => {
   // response.send(dataFromlocationJson);
 
   const locationData = require('./data/location.json');
-  const 
+  console.log(locationData);
+  const newLocations = [];
 
-  response.send({
-    'search_query': 'Lynnwood',
-    'formatted_query': 'Snohomish County, Washington, USA',
-    'latitude': '47.8278656',
-    'longitude': '-122.3053932'
+  locationData.forEach(current => {
+    newLocations.push(new Location(current));
   });
+
+  response.send(newLocations);
 });
 
+function Location(obj){
+  this.latitude = obj.lat;
+  this.longitude = obj.lon;
+}
 
 // app.get('/data/weather', (r, res) => {
 //   res.send([
@@ -40,6 +44,7 @@ app.get('./data/location', (request, response) => {
 //     },
 //   ]);
 // });
+
 
 
 
