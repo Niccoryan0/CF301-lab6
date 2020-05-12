@@ -84,11 +84,11 @@ Number and name of feature: #2 Locations
 
 Estimate of time needed to complete: 30 min.
 
-Start time: p.m.
+Start time: 1:10 p.m.
 
-Finish time: p.m.
+Finish time: 1:30 p.m.
 
-Actual time needed to complete: min
+Actual time needed to complete: 20 min
 
 
 Number and name of feature: #3 Weather
