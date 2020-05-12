@@ -48,30 +48,21 @@ function LocationCon(obj, city){
 }
 
 app.get('/weather', (request, response) => {
-  const weatherData = require('./data/weather.json');
-  const weatherDataReal = weatherData.data;
-
-  const weatherDataMap = weatherDataReal.map(obj => {
-    return new Weather(obj);
-  });
-
-  const apiUrl = 'https://api.weatherbit.io/v2.0/current';
+  const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
   const queryParams = {
     key : process.env.WEATHER_API_KEY,
     lat : request.query.latitude,
     lon : request.query.longitude,
+    days : 8,
   };
-  const newWeather = [];
 
   superagent.get(apiUrl)
     .query(queryParams)
     .then(result => {
-      console.log(result);
-      // result.forEach(current => {
-      //   newWeather.push(new Weather(current));
-      // });
-      // response.send(newWeather);
-
+      const weatherDataMap = result.body.data.map(obj => {
+        return new Weather(obj);
+      });
+      response.send(weatherDataMap);
     })
     .catch(error => response.send(error).status(500));
 
@@ -84,16 +75,17 @@ function Weather(obj){
   this.time = new Date(obj.ts * 1000).toDateString();
 }
 
+app.get('/trails', (request, response) => {
+  const apiUrl = '';
+  const queryParams = {
+    key : process.env.WEATHER_API_KEY,
+    lat : request.query.latitude,
+    lon : request.query.longitude,
+  };
+});
+
+
 
 // We run the server
 app.listen(PORT, console.log(`we are up on ${PORT}`));
 
-/* const data = [
-  {}
-  {}
-  {}
-  {}
-]
-function Person (red, name){
-
-} */
