@@ -95,19 +95,19 @@ Number and name of feature: #3 Weather
 
 Estimate of time needed to complete: 30 min.
 
-Start time: p.m.
+Start time: 2:10 p.m.
 
-Finish time: p.m.
+Finish time: 2:30 p.m.
 
-Actual time needed to complete: min
+Actual time needed to complete: 20 min
 
 
 Number and name of feature: #4 Trails
 
-Estimate of time needed to complete: min.
+Estimate of time needed to complete: 30 min.
 
-Start time: p.m.
+Start time: 2:40 p.m.
 
-Finish time: p.m.
+Finish time:  p.m.
 
 Actual time needed to complete: min
