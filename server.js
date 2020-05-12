@@ -6,7 +6,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 // Global variables
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 const app = express();
 
 //configs
@@ -42,13 +42,13 @@ app.get('/weather', (request, response) => {
   weatherDataReal.forEach(current => {
     newWeather.push(new Weather(current));
   });
-
-  response.send(newWeather);
+  const outputMap = newWeather.map();
+  response.send(outputMap);
 });
 
 function Weather(obj){
   this.forecast = obj.weather.description;
-  this.time = obj.datetime;
+  this.time = new Date(obj.ts * 1000).toDateString();
 }
 
 
