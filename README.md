@@ -59,13 +59,13 @@ Actual time needed to complete: ~70-75 min
 TODO:
 Number and name of feature: #4 Errors
 
-Estimate of time needed to complete:  min
+Estimate of time needed to complete: 5 min
 
-Start time: 5:20 p.m.
+Start time: 12:45 p.m. (5/12/20)
 
-Finish time: _____
+Finish time: 12:50 p.m.
 
-Actual time needed to complete: _____
+Actual time needed to complete: 5 min.
 
 
 ### 5/12/2020
@@ -73,9 +73,9 @@ Number and name of feature: #1 Data Formatting
 
 Estimate of time needed to complete: 20 min.
 
-Start time: p.m.
+Start time: 12:50 p.m.
 
-Finish time: p.m.
+Finish time: 1:10 p.m.
 
 Actual time needed to complete: min
 
