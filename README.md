@@ -52,6 +52,62 @@ Estimate of time needed to complete: ~ 75 min
 
 Start time: 5:20 p.m.
 
+Finish time: ~7 p.m. w/ 30 min break
+
+Actual time needed to complete: ~70-75 min
+
+TODO:
+Number and name of feature: #4 Errors
+
+Estimate of time needed to complete:  min
+
+Start time: 5:20 p.m.
+
 Finish time: _____
 
 Actual time needed to complete: _____
+
+
+### 5/12/2020
+Number and name of feature: #1 Data Formatting
+
+Estimate of time needed to complete: 20 min.
+
+Start time: p.m.
+
+Finish time: p.m.
+
+Actual time needed to complete: min
+
+
+Number and name of feature: #2 Locations
+
+Estimate of time needed to complete: 30 min.
+
+Start time: p.m.
+
+Finish time: p.m.
+
+Actual time needed to complete: min
+
+
+Number and name of feature: #3 Weather
+
+Estimate of time needed to complete: 30 min.
+
+Start time: p.m.
+
+Finish time: p.m.
+
+Actual time needed to complete: min
+
+
+Number and name of feature: #4 Trails
+
+Estimate of time needed to complete: min.
+
+Start time: p.m.
+
+Finish time: p.m.
+
+Actual time needed to complete: min

@@ -51,6 +51,9 @@ app.get('/weather', (request, response) => {
   const weatherData = require('./data/weather.json');
   const weatherDataReal = weatherData.data;
 
+  const weatherDataMap = weatherDataReal.map(obj => {
+    return new Weather(obj);
+  });
 
   const apiUrl = 'https://api.weatherbit.io/v2.0/current';
   const queryParams = {
@@ -84,3 +87,13 @@ function Weather(obj){
 
 // We run the server
 app.listen(PORT, console.log(`we are up on ${PORT}`));
+
+/* const data = [
+  {}
+  {}
+  {}
+  {}
+]
+function Person (red, name){
+
+} */
