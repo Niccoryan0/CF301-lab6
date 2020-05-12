@@ -69,7 +69,6 @@ const getWeather = ((request, response) => {
       response.send(weatherDataMap);
     })
     .catch(error => response.send(error).status(500));
-  // const outputMap = newWeather.map();
 });
 
 app.get('/weather', getWeather);
