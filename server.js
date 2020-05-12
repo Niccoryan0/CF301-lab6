@@ -19,12 +19,7 @@ app.get('/', (request, response) => {
   response.redirect('https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/');
 });
 
-app.get('/location', (request, response) => {
-  // const locationData = require('./data/location.json');
-  // console.log(locationData);
-  // let location = new LocationCon(locationData[0], city);
-  // response.send(location);
-
+const getLocation = (request, response) => {
   const city = request.query.city;
   const apiUrl = 'https://us1.locationiq.com/v1/search.php';
   const queryParams = {
@@ -38,8 +33,12 @@ app.get('/location', (request, response) => {
     .then(result => {
       const newLocation = new LocationCon(result.body[0], city);
       response.send(newLocation);
-    });
-});
+    })
+    .catch(error => response.send(error).status(500));
+};
+
+
+app.get('/location', getLocation);
 
 function LocationCon(obj, city){
   this.search_query = city;
@@ -49,16 +48,32 @@ function LocationCon(obj, city){
 }
 
 app.get('/weather', (request, response) => {
-
   const weatherData = require('./data/weather.json');
   const weatherDataReal = weatherData.data;
+
+
+  const apiUrl = 'https://api.weatherbit.io/v2.0/current';
+  const queryParams = {
+    key : process.env.WEATHER_API_KEY,
+    lat : request.query.latitude,
+    lon : request.query.longitude,
+  };
   const newWeather = [];
 
-  weatherDataReal.forEach(current => {
-    newWeather.push(new Weather(current));
-  });
+  superagent.get(apiUrl)
+    .query(queryParams)
+    .then(result => {
+      console.log(result);
+      // result.forEach(current => {
+      //   newWeather.push(new Weather(current));
+      // });
+      // response.send(newWeather);
+
+    })
+    .catch(error => response.send(error).status(500));
+
+
   // const outputMap = newWeather.map();
-  response.send(newWeather);
 });
 
 function Weather(obj){
