@@ -12,6 +12,10 @@ const app = express();
 //configs
 app.use(cors());
 
+app.get('/', (request, response) => {
+  response.redirect('https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/')
+}
+
 app.get('/location', (request, response) => {
 
   const locationData = require('./data/location.json');
