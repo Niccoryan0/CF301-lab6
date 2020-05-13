@@ -15,11 +15,13 @@ const app = express();
 //configs
 app.use(cors());
 
+
+// Redirect users from homepage of server to code fellows' front-end
 app.get('/', (request, response) => {
   response.redirect('https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/');
 });
 
-
+// Location constructor
 function LocationCon(obj, city){
   this.search_query = city;
   this.formatted_query = obj.display_name;
@@ -27,6 +29,7 @@ function LocationCon(obj, city){
   this.longitude = obj.lon;
 }
 
+// Handle the get function for location
 const getLocation = (request, response) => {
   const city = request.query.city;
   const apiUrl = 'https://us1.locationiq.com/v1/search.php';
@@ -42,24 +45,29 @@ const getLocation = (request, response) => {
       const newLocation = new LocationCon(result.body[0], city);
       response.send(newLocation);
     })
-    .catch(error => response.send(error).status(500));
+    .catch(error => handleErrors(error, response));
 };
 
-app.get('/location', getLocation);
-
-
+// Weather constuctor
 function Weather(obj){
   this.forecast = obj.weather.description;
   this.time = new Date(obj.ts * 1000).toDateString();
 }
 
+// Handle the get function for weather
 const getWeather = ((request, response) => {
+  // One way to do the API, from Chance, leaving it so I can reference it later, uses template literal in url:
+  // const { latitude, longitude } = request.query;
+  // const key = process.env.WEATHER_API_KEY;
+  // const url = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${latitude}&lon=${longitude}&key=${key}&days=7`;
+
+  // Other way uses query instead of templated url
   const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
   const queryParams = {
     key : process.env.WEATHER_API_KEY,
     lat : request.query.latitude,
     lon : request.query.longitude,
-    // days : 8,
+    days : 7,
   };
 
   superagent.get(apiUrl)
@@ -68,14 +76,10 @@ const getWeather = ((request, response) => {
       const weatherDataMap = result.body.data.map(obj => new Weather(obj));
       response.send(weatherDataMap);
     })
-    .catch(error => response.send(error).status(500));
+    .catch(error => handleErrors(error, response));
 });
 
-app.get('/weather', getWeather);
-
-
-
-
+// Trail constructor
 function Trail(obj){
   this.name = obj.name;
   this.location = obj.location;
@@ -85,10 +89,12 @@ function Trail(obj){
   this.summary = obj.summary;
   this.trail_url = obj.url;
   this.conditions = obj.conditionStatus;
+  // Split because the conditionDate comes back with both date and time
   this.condition_date = obj.conditionDate.split(' ')[0];
   this.condition_time = obj.conditionDate.split(' ')[1];
 }
 
+// Handle the get function for trails
 const getTrails = (request, response) => {
   const apiUrl = 'https://www.hikingproject.com/data/get-trails';
   const queryParams = {
@@ -103,9 +109,15 @@ const getTrails = (request, response) => {
       const trailDataMap = result.body.trails.map(obj => new Trail(obj));
       response.send(trailDataMap);
     })
-    .catch(error => response.send(error).status(500));
+    .catch(error => handleErrors(error, response));
 };
 
+// Handle errors
+const handleErrors = (error, response) => response.send(error).status(500);
+
+// Send it all to the server
+app.get('/location', getLocation);
+app.get('/weather', getWeather);
 app.get('/trails', getTrails);
 
 // We run the server
