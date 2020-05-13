@@ -6,6 +6,7 @@
 const express = require('express');
 const cors = require('cors');
 const superagent = require('superagent');
+const pg = require('pg');
 require('dotenv').config();
 
 // Global variables
@@ -14,12 +15,17 @@ const app = express();
 
 //configs
 app.use(cors());
+const client = new pg.Client(process.env.DATABASE_URL);
+client.on('error', console.error);
+client.connect();
 
-
-// Redirect users from homepage of server to code fellows' front-end
-app.get('/', (request, response) => {
-  response.redirect('https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/');
+// Routes
+app.get('/', (req, res) => {
+  res.redirect('https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/');
 });
+app.get('/location', getLocation);
+app.get('/weather', getWeather);
+app.get('/trails', getTrails);
 
 // Location constructor
 function LocationCon(obj, city){
@@ -30,8 +36,8 @@ function LocationCon(obj, city){
 }
 
 // Handle the get function for location
-const getLocation = (request, response) => {
-  const city = request.query.city;
+function getLocation(req, res){
+  const city = req.query.city;
   const apiUrl = 'https://us1.locationiq.com/v1/search.php';
   const queryParams = {
     key : process.env.GEOCODE_API_KEY,
@@ -39,14 +45,42 @@ const getLocation = (request, response) => {
     format: 'json'
   };
 
-  superagent.get(apiUrl)
-    .query(queryParams)
+  const sqlQuery = 'SELECT * FROM locations WHERE search_query=$1';
+  const sqlVal = [city];
+  client.query(sqlQuery, sqlVal)
     .then(result => {
-      const newLocation = new LocationCon(result.body[0], city);
-      response.send(newLocation);
-    })
-    .catch(error => handleErrors(error, response));
-};
+      if(result.rowCount > 0){
+        // If there's info in sql, send that
+        res.send(result.rows[0]);
+      }else {
+        superagent.get(apiUrl)
+          .query(queryParams)
+          .then(result => {
+            const newLocation = new LocationCon(result.body[0], city);
+            const sqlQuery = 'INSERT INTO locations (latitude, longitude, search_query, formatted_query) VALUES ($1, $2, $3, $4)';
+            const valArr = [newLocation.latitude, newLocation.longitude, newLocation.search_query, newLocation.formatted_query];
+
+            client.query(sqlQuery,valArr);
+
+            res.send(newLocation);
+          })
+          .catch(error => handleErrors(error, res));
+      }
+    }).catch(error => handleErrors(error,res));
+  // superagent.get(apiUrl)
+  //   .query(queryParams)
+  //   .then(result => {
+  //     const newLocation = new LocationCon(result.body[0], city);
+  //     const sqlQuery = 'INSERT INTO locations (latitude, longitude, search_query, formatted_query) VALUES ($1, $2, $3, $4)';
+  //     const valArr = [newLocation.latitude, newLocation.longitude, newLocation.search_query, newLocation.formatted_query];
+
+  //     client.query(sqlQuery,valArr);
+
+  //     res.send(newLocation);
+  //   })
+  //   .catch(error => handleErrors(error, res));
+}
+
 
 // Weather constuctor
 function Weather(obj){
@@ -55,9 +89,9 @@ function Weather(obj){
 }
 
 // Handle the get function for weather
-const getWeather = ((request, response) => {
+function getWeather(req, res){
   // One way to do the API, from Chance, leaving it so I can reference it later, uses template literal in url:
-  // const { latitude, longitude } = request.query;
+  // const { latitude, longitude } = req.query;
   // const key = process.env.WEATHER_API_KEY;
   // const url = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${latitude}&lon=${longitude}&key=${key}&days=7`;
 
@@ -65,8 +99,8 @@ const getWeather = ((request, response) => {
   const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
   const queryParams = {
     key : process.env.WEATHER_API_KEY,
-    lat : request.query.latitude,
-    lon : request.query.longitude,
+    lat : req.query.latitude,
+    lon : req.query.longitude,
     days : 7,
   };
 
@@ -74,10 +108,10 @@ const getWeather = ((request, response) => {
     .query(queryParams)
     .then(result => {
       const weatherDataMap = result.body.data.map(obj => new Weather(obj));
-      response.send(weatherDataMap);
+      res.send(weatherDataMap);
     })
-    .catch(error => handleErrors(error, response));
-});
+    .catch(error => handleErrors(error, res));
+}
 
 // Trail constructor
 function Trail(obj){
@@ -95,31 +129,40 @@ function Trail(obj){
 }
 
 // Handle the get function for trails
-const getTrails = (request, response) => {
+function getTrails(req, res) {
   const apiUrl = 'https://www.hikingproject.com/data/get-trails';
   const queryParams = {
     key : process.env.TRAIL_API_KEY,
-    lat : request.query.latitude,
-    lon : request.query.longitude,
+    lat : req.query.latitude,
+    lon : req.query.longitude,
   };
 
   superagent.get(apiUrl)
     .query(queryParams)
     .then(result => {
       const trailDataMap = result.body.trails.map(obj => new Trail(obj));
-      response.send(trailDataMap);
+      res.send(trailDataMap);
     })
-    .catch(error => handleErrors(error, response));
-};
+    .catch(error => handleErrors(error, res));
+}
+
+// function getStuff(req, res, apiUrl, queryParams) {
+//   superagent.get(apiUrl)
+//     .query(queryParams)
+//     .then(result => {
+//       const trailDataMap = result.body.trails.map(obj => new Trail(obj));
+//       res.send(trailDataMap);
+//     })
+//     .catch(error => handleErrors(error, res));
+// }
+
 
 // Handle errors
-const handleErrors = (error, response) => response.send(error).status(500);
+const handleErrors = (error, res) => {
+  console.log(error);
+  res.send(error).status(500);
+};
 
-// Send it all to the server
-app.get('/location', getLocation);
-app.get('/weather', getWeather);
-app.get('/trails', getTrails);
 
 // We run the server
 app.listen(PORT, console.log(`we are up on ${PORT}`));
-
