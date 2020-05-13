@@ -3,11 +3,29 @@
 **Author**: Nicholas Ryan
 **Version**: 1.0.0
 
+// routes
+app.get('/location', getLocation);
+app.get('/weather', getWeather);
+app.get('/trails', getTrails);
+
+app.get('/', (request, response) => {
+  response.redirect('https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/');
+});
+
 ## Overview
 <!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+- Run NPM install from the root of this directory
+- Get keys for required APIs:
+  - Locationiq
+  - Weatherbit.io API
+  - REI Trails API
+- Add a .env file with the following varibles:
+  - PORT=3000
+  - GEOCODE_API_KEY=89324218957hafdshjqbf
+  - WEATHER_API_KEY=18295712jfsahbgrew2342
+  - TRAILS_API_KEY=12376432hfarewfh123321
 
 ## Architecture
 <!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->

@@ -6,6 +6,7 @@
 const express = require('express');
 const cors = require('cors');
 const superagent = require('superagent');
+// const postgres = require('pg');
 require('dotenv').config();
 
 // Global variables
@@ -15,11 +16,13 @@ const app = express();
 //configs
 app.use(cors());
 
-
-// Redirect users from homepage of server to code fellows' front-end
+// Routes
 app.get('/', (request, response) => {
   response.redirect('https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/');
 });
+app.get('/location', getLocation);
+app.get('/weather', getWeather);
+app.get('/trails', getTrails);
 
 // Location constructor
 function LocationCon(obj, city){
@@ -30,7 +33,7 @@ function LocationCon(obj, city){
 }
 
 // Handle the get function for location
-const getLocation = (request, response) => {
+function getLocation(request, response){
   const city = request.query.city;
   const apiUrl = 'https://us1.locationiq.com/v1/search.php';
   const queryParams = {
@@ -38,7 +41,6 @@ const getLocation = (request, response) => {
     q: city,
     format: 'json'
   };
-
   superagent.get(apiUrl)
     .query(queryParams)
     .then(result => {
@@ -46,7 +48,8 @@ const getLocation = (request, response) => {
       response.send(newLocation);
     })
     .catch(error => handleErrors(error, response));
-};
+}
+
 
 // Weather constuctor
 function Weather(obj){
@@ -55,7 +58,7 @@ function Weather(obj){
 }
 
 // Handle the get function for weather
-const getWeather = ((request, response) => {
+function getWeather(request, response){
   // One way to do the API, from Chance, leaving it so I can reference it later, uses template literal in url:
   // const { latitude, longitude } = request.query;
   // const key = process.env.WEATHER_API_KEY;
@@ -77,7 +80,7 @@ const getWeather = ((request, response) => {
       response.send(weatherDataMap);
     })
     .catch(error => handleErrors(error, response));
-});
+}
 
 // Trail constructor
 function Trail(obj){
@@ -95,7 +98,7 @@ function Trail(obj){
 }
 
 // Handle the get function for trails
-const getTrails = (request, response) => {
+function getTrails(request, response) {
   const apiUrl = 'https://www.hikingproject.com/data/get-trails';
   const queryParams = {
     key : process.env.TRAIL_API_KEY,
@@ -110,16 +113,25 @@ const getTrails = (request, response) => {
       response.send(trailDataMap);
     })
     .catch(error => handleErrors(error, response));
-};
+}
+
+// function getStuff(request, response, apiUrl, queryParams) {
+//   superagent.get(apiUrl)
+//     .query(queryParams)
+//     .then(result => {
+//       const trailDataMap = result.body.trails.map(obj => new Trail(obj));
+//       response.send(trailDataMap);
+//     })
+//     .catch(error => handleErrors(error, response));
+// }
+
 
 // Handle errors
-const handleErrors = (error, response) => response.send(error).status(500);
+const handleErrors = (error, response) => {
+  console.log(error);
+  response.send(error).status(500);
+};
 
-// Send it all to the server
-app.get('/location', getLocation);
-app.get('/weather', getWeather);
-app.get('/trails', getTrails);
 
 // We run the server
 app.listen(PORT, console.log(`we are up on ${PORT}`));
-
