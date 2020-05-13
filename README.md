@@ -77,7 +77,7 @@ Start time: 12:50 p.m.
 
 Finish time: 1:10 p.m.
 
-Actual time needed to complete: min
+Actual time needed to complete: 20 min
 
 
 Number and name of feature: #2 Locations
@@ -108,6 +108,6 @@ Estimate of time needed to complete: 30 min.
 
 Start time: 2:40 p.m.
 
-Finish time:  p.m.
+Finish time: 3:15 p.m.
 
-Actual time needed to complete: min
+Actual time needed to complete: 35 min
