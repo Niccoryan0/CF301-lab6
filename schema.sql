@@ -7,4 +7,3 @@ CREATE TABLE locations (
   longitude NUMERIC,
   formatted_query VARCHAR(255)
 )
-

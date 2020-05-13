@@ -74,7 +74,7 @@ Finish time: ~7 p.m. w/ 30 min break
 
 Actual time needed to complete: ~70-75 min
 
-TODO:
+
 Number and name of feature: #4 Errors
 
 Estimate of time needed to complete: 5 min
@@ -129,3 +129,47 @@ Start time: 2:40 p.m.
 Finish time: 3:15 p.m.
 
 Actual time needed to complete: 35 min
+
+### 5/13/2020
+Number and name of feature: #1 Database
+
+Estimate of time needed to complete: 15 min.
+
+Start time: 1:30 p.m.
+
+Finish time: 1:50 p.m.
+
+Actual time needed to complete: 20 min
+
+
+Number and name of feature: #2 Server
+
+Estimate of time needed to complete: 25 min
+
+Start time: 1:50 p.m.
+
+Finish time: 3:10 p.m. (~45 min break for code challenge)
+
+Actual time needed to complete: 35-40 min
+
+
+Number and name of feature: #3 Deploy
+
+Estimate of time needed to complete: 10 min
+
+Start time: 3:15 p.m.
+
+Finish time: 3:30 p.m.
+
+Actual time needed to complete: 15 min.
+
+
+Number and name of feature: #4 Errors
+
+Estimate of time needed to complete: 45 min - 1 hr.
+
+Start time: 3:45 p.m.
+
+Finish time: _______ p.m.
+
+Actual time needed to complete: ________ min.
