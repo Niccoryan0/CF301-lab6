@@ -3,15 +3,6 @@
 **Author**: Nicholas Ryan
 **Version**: 1.0.0
 
-// routes
-app.get('/location', getLocation);
-app.get('/weather', getWeather);
-app.get('/trails', getTrails);
-
-app.get('/', (request, response) => {
-  response.redirect('https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/');
-});
-
 ## Overview
 <!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
 This application was developed to help users navigate around a city and learn facts about it such as the weather forecast and any nearby hikes, while showing a map of the area. The user enters in a city or area they'd like to view and will be redirected to a page containing all the previously stated information for the city/area.
@@ -40,7 +31,7 @@ The back end for this app utilizes JavaScript as the programming language, as we
 
 ## Credits and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
-
+Nicholas Carignan, Chance Harmon
 
 
 ## Features
