@@ -12,8 +12,12 @@ require('dotenv').config();
 // Global variables
 const PORT = process.env.PORT;
 const app = express();
+const apiUrls = {
+  weather : 'https://api.weatherbit.io/v2.0/forecast/daily',
+  trails: 'https://www.hikingproject.com/data/get-trails'
+};
 
-//configs
+// Configs
 app.use(cors());
 const client = new pg.Client(process.env.DATABASE_URL);
 client.on('error', console.error);
@@ -24,8 +28,8 @@ app.get('/', (req, res) => {
   res.redirect('https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/');
 });
 app.get('/location', getLocation);
-app.get('/weather', getWeather);
-app.get('/trails', getTrails);
+app.get('/weather', (req,res) => getData(req, res, apiUrls.weather, 'data'));
+app.get('/trails', (req,res) => getData(req, res, apiUrls.trails, 'trails'));
 
 // Location constructor
 function LocationCon(obj, city){
@@ -33,6 +37,27 @@ function LocationCon(obj, city){
   this.formatted_query = obj.display_name;
   this.latitude = obj.lat;
   this.longitude = obj.lon;
+}
+
+// Weather constuctor
+function Weather(obj){
+  this.forecast = obj.weather.description;
+  this.time = new Date(obj.ts * 1000).toDateString();
+}
+
+// Trail constructor
+function Trail(obj){
+  this.name = obj.name;
+  this.location = obj.location;
+  this.length = obj.length;
+  this.stars = obj.stars;
+  this.star_votes = obj.starVotes;
+  this.summary = obj.summary;
+  this.trail_url = obj.url;
+  this.conditions = obj.conditionStatus;
+  // Split because the conditionDate comes back with both date and time
+  this.condition_date = obj.conditionDate.split(' ')[0];
+  this.condition_time = obj.conditionDate.split(' ')[1];
 }
 
 // Handle the get function for location
@@ -67,102 +92,43 @@ function getLocation(req, res){
           .catch(error => handleErrors(error, res));
       }
     }).catch(error => handleErrors(error,res));
-  // superagent.get(apiUrl)
-  //   .query(queryParams)
-  //   .then(result => {
-  //     const newLocation = new LocationCon(result.body[0], city);
-  //     const sqlQuery = 'INSERT INTO locations (latitude, longitude, search_query, formatted_query) VALUES ($1, $2, $3, $4)';
-  //     const valArr = [newLocation.latitude, newLocation.longitude, newLocation.search_query, newLocation.formatted_query];
-
-  //     client.query(sqlQuery,valArr);
-
-  //     res.send(newLocation);
-  //   })
-  //   .catch(error => handleErrors(error, res));
 }
 
-
-// Weather constuctor
-function Weather(obj){
-  this.forecast = obj.weather.description;
-  this.time = new Date(obj.ts * 1000).toDateString();
+// One function for getting Trails & Weather data
+function getData(req, res, apiUrl, drill) {
+  superagent.get(apiUrl)
+    .query(queryParams(req)[drill])
+    .then(result => {
+      if(drill === 'data'){
+        res.send(result.body[drill].map(obj => new Weather(obj)));
+      } else {
+        res.send(result.body[drill].map(obj => new Trail(obj)));
+      }
+    })
+    .catch(error => handleErrors(error, res));
 }
 
-// Handle the get function for weather
-function getWeather(req, res){
-  // One way to do the API, from Chance, leaving it so I can reference it later, uses template literal in url:
-  // const { latitude, longitude } = req.query;
-  // const key = process.env.WEATHER_API_KEY;
-  // const url = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${latitude}&lon=${longitude}&key=${key}&days=7`;
+// Handle errors
+function handleErrors (error, res) {
+  console.log(error);
+  res.send(error).status(500);
+}
 
-  // Other way uses query instead of templated url
-  const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
-  const queryParams = {
+function queryParams(req) {
+  const weather = {
     key : process.env.WEATHER_API_KEY,
     lat : req.query.latitude,
     lon : req.query.longitude,
     days : 7,
   };
-
-  superagent.get(apiUrl)
-    .query(queryParams)
-    .then(result => {
-      const weatherDataMap = result.body.data.map(obj => new Weather(obj));
-      res.send(weatherDataMap);
-    })
-    .catch(error => handleErrors(error, res));
-}
-
-// Trail constructor
-function Trail(obj){
-  this.name = obj.name;
-  this.location = obj.location;
-  this.length = obj.length;
-  this.stars = obj.stars;
-  this.star_votes = obj.starVotes;
-  this.summary = obj.summary;
-  this.trail_url = obj.url;
-  this.conditions = obj.conditionStatus;
-  // Split because the conditionDate comes back with both date and time
-  this.condition_date = obj.conditionDate.split(' ')[0];
-  this.condition_time = obj.conditionDate.split(' ')[1];
-}
-
-// Handle the get function for trails
-function getTrails(req, res) {
-  const apiUrl = 'https://www.hikingproject.com/data/get-trails';
-  const queryParams = {
+  const trails = {
     key : process.env.TRAIL_API_KEY,
     lat : req.query.latitude,
     lon : req.query.longitude,
   };
-
-  superagent.get(apiUrl)
-    .query(queryParams)
-    .then(result => {
-      const trailDataMap = result.body.trails.map(obj => new Trail(obj));
-      res.send(trailDataMap);
-    })
-    .catch(error => handleErrors(error, res));
+  return { 'data' : weather, 'trails' : trails};
 }
 
-// function getStuff(req, res, apiUrl, queryParams) {
-//   superagent.get(apiUrl)
-//     .query(queryParams)
-//     .then(result => {
-//       const trailDataMap = result.body.trails.map(obj => new Trail(obj));
-//       res.send(trailDataMap);
-//     })
-//     .catch(error => handleErrors(error, res));
-// }
 
-
-// Handle errors
-const handleErrors = (error, res) => {
-  console.log(error);
-  res.send(error).status(500);
-};
-
-
-// We run the server
+// Run the server
 app.listen(PORT, console.log(`we are up on ${PORT}`));

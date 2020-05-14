@@ -14,26 +14,29 @@ app.get('/', (request, response) => {
 
 ## Overview
 <!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
+This application was developed to help users navigate around a city and learn facts about it such as the weather forecast and any nearby hikes, while showing a map of the area. The user enters in a city or area they'd like to view and will be redirected to a page containing all the previously stated information for the city/area.
 
 ## Getting Started
 - Run NPM install from the root of this directory
-- Get keys for required APIs:
+- Get keys for the required APIs:
   - Locationiq
   - Weatherbit.io API
   - REI Trails API
-- Add a .env file with the following varibles:
+- Example env file:
   - PORT=3000
   - GEOCODE_API_KEY=89324218957hafdshjqbf
   - WEATHER_API_KEY=18295712jfsahbgrew2342
   - TRAILS_API_KEY=12376432hfarewfh123321
+  - DATABASE_URL=postgres://USER:PASSWORD@DOMAIN:PORT/DBNAME
 
 ## Architecture
 <!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
+The back end for this app utilizes JavaScript as the programming language, as well as packages such as express (for creating the server), cors (provides the Connect/Express middleware), dotenv (for reading the file), nodemon (to run a local server), Postgres (for SQL database), and superagent (collects data from APIs).
 
 ## Change Log
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an examples:
+05-12-2020 4pm - Application now utilizes APIs to collect data to render rather than using .json files.
 
-01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource.
+05-13-2020 4pm - Application now uses an SQL database to store and reload the location API data for faster rendering.
 
 ## Credits and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
