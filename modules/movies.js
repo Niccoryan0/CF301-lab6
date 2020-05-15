@@ -1,22 +1,7 @@
 'use strict';
 
-const superagent = require('superagent');
-
-// function Movie(obj){
-
-// }
-function getMovies(req,res){
-  const city = req.query.search_query;
-  const key = process.env.MOVIE_API_KEY;
-  const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${key}&language=en-US&query=${city}&page=1&include_adult=false&region=US`;
-  superagent.get(apiUrl)
-    .then(result => {
-      const movieMap = result.body.results.map(current => {
-        return new Movie(current);
-      });
-      res.send(movieMap);
-    });
-}
+// const superagent = require('superagent');
+const getData = require('./handleData.js');
 
 function Movie(obj){
   this.title = obj.title;
@@ -27,6 +12,22 @@ function Movie(obj){
   this.popularity = obj.popularity;
   this.released_on = obj.release_date;
 }
+
+function getMovies(req,res){
+  const apiUrl = `https://api.themoviedb.org/3/search/movie`;
+  const queryParams = {
+    query : req.query.search_query,
+    api_key : process.env.MOVIE_API_KEY
+  };
+  getData(res, apiUrl, queryParams, handleData);
+
+}
+
+function handleData(result) {
+  const newMovies = result.body.results.map(obj => new Movie(obj));
+  return newMovies;
+}
+
 
 
 module.exports = getMovies;

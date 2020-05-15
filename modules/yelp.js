@@ -1,6 +1,7 @@
 'use strict';
 
 const superagent = require('superagent');
+const handleErrors = require('./handleErrors');
 
 function getYelp(req,res){
   const apiUrl = `https://api.yelp.com/v3/businesses/search`;
@@ -14,13 +15,15 @@ function getYelp(req,res){
   superagent.get(apiUrl)
     .set('Authorization', key)
     .query(queryParams)
-    .then(result => {
-      const yelpMap = result.body.businesses.map(current => {
-        return new Yelp(current);
-      });
-      res.send(yelpMap);
-    });
+    .then(result => handleYelp(result, res))
+    .catch(error => handleErrors(error,res));
 }
+
+function handleYelp(result, res){
+  const yelpMap = result.body.businesses.map(current => new Yelp(current));
+  res.send(yelpMap);
+}
+
 function Yelp(obj){
   this.name = obj.name;
   this.image_url = obj.overview;
