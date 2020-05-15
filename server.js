@@ -28,6 +28,9 @@ const getLocation = require('./modules/location.js');
 // const getWeather = require('./modules/weather.js');
 // const getTrails = require('./modules/trails.js');
 const getData = require('./modules/datahandle.js');
+const getMovies = require('./modules/movies.js');
+const getYelp = require('./modules/yelp');
+
 
 // Routes
 app.get('/', (req, res) => {
@@ -36,6 +39,10 @@ app.get('/', (req, res) => {
 app.get('/location', getLocation);
 app.get('/weather', (req,res) => getData(req, res, apiUrls.weather, 'data'));
 app.get('/trails', (req,res) => getData(req, res, apiUrls.trails, 'trails'));
+app.get('/movies', getMovies);
+app.get('/yelp', getYelp);
+
+
 app.get('/resetDatabase', (req, res) => {
   const sqlQuery = `DROP TABLE locations;
   DROP TABLE weather;

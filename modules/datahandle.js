@@ -50,23 +50,24 @@ function getData(req, res, apiUrl, drill) {
 function handleData(result, drill, req){
   if(drill === 'data'){
     const newWeather = result.body[drill].map(obj => new Weather(obj));
-    newWeather.forEach(val => {
-      const sqlQuery = 'INSERT INTO weather (latitude, forecast, time, ts) VALUES ($1, $2, $3, $4)';
-      const valArr = [req.query.latitude, val.forecast, val.time, Date.now()/3600000];
-      client.query(sqlQuery,valArr);
+    // newWeather.forEach(val => {
+    //   const sqlQuery = 'INSERT INTO weather (latitude, forecast, time, ts) VALUES ($1, $2, $3, $4)';
+    //   const valArr = [req.query.latitude, val.forecast, val.time, Date.now()/3600000];
+    //   client.query(sqlQuery,valArr);
 
-    });
+    // });
     return newWeather;
   } else if (drill === 'trails') {
     const newTrails = result.body[drill].map(obj => new Trail(obj));
-    newTrails.forEach(val => {
-      const sqlQuery = 'INSERT INTO trails (name, location, length, stars, star_votes, summary, trail_url, conditions, condition_date, condition)time, ts) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)';
-      const valArr = [val.name, val.location, val.length, val.stars, val.star_votes, val.summary, val.trail_url, val.conditions, val.condiiton_date, val.condition_time, Date.now()/3600000];
-      client.query(sqlQuery,valArr);
-    });
+    // newTrails.forEach(val => {
+    //   const sqlQuery = 'INSERT INTO trails (name, location, length, stars, star_votes, summary, trail_url, conditions, condition_date, condition)time, ts) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)';
+    //   const valArr = [val.name, val.location, val.length, val.stars, val.star_votes, val.summary, val.trail_url, val.conditions, val.condiiton_date, val.condition_time, Date.now()/3600000];
+    //   client.query(sqlQuery,valArr);
+    // });
     return newTrails;
   }
 }
+
 
 function queryParams(req) {
   const weather = {
