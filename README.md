@@ -167,3 +167,36 @@ Start time: 3:45 p.m.
 Finish time: _______ p.m.
 
 Actual time needed to complete: ________ min.
+
+### 5/14/2020
+Number and name of feature: #1 Movies
+
+Estimate of time needed to complete: 45 min.
+
+Start time: ~3:15 p.m.
+
+Finish time: ~4:30 p.m.
+
+Actual time needed to complete: ~75 min
+
+
+Number and name of feature: #2 Yelp
+
+Estimate of time needed to complete: 30 min.
+
+Start time: 4:40 p.m.
+
+Finish time: 5:15 p.m.
+
+Actual time needed to complete: 20 min
+
+
+Number and name of feature: #3 Modularize
+
+Estimate of time needed to complete: 30 min.
+
+Start time: 5:15 p.m.
+
+Finish time: 5:35 p.m.
+
+Actual time needed to complete: 20 min
