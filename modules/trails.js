@@ -1,6 +1,6 @@
 'use strict';
 
-const getData = require('./modules/datahandle.js');
+const getData = require('./handleData.js');
 
 
 // Trail constructor
@@ -20,8 +20,19 @@ function Trail(obj){
 
 function getTrail(req, res){
   const apiUrl = 'https://www.hikingproject.com/data/get-trails';
-  getData(req, res, apiUrl, 'data');
+  const queryParams = {
+    key : process.env.TRAIL_API_KEY,
+    lat : req.query.latitude,
+    lon : req.query.longitude,
+  };
+  getData(res, apiUrl, queryParams, handleData);
 }
+
+function handleData(result) {
+  const newTrails = result.body.trails.map(obj => new Trail(obj));
+  return newTrails;
+}
+
 
 module.exports = getTrail;
 

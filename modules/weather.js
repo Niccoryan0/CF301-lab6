@@ -1,6 +1,6 @@
 'use strict';
 
-const getData = require('./modules/datahandle.js');
+const getData = require('./handleData.js');
 
 // Weather constuctor
 function Weather(obj){
@@ -10,7 +10,18 @@ function Weather(obj){
 
 function getWeather(req, res){
   const apiUrl = 'https://api.weatherbit.io/v2.0/forecast/daily';
-  getData(req, res, apiUrl, 'data');
+  const queryParams = {
+    key : process.env.WEATHER_API_KEY,
+    lat : req.query.latitude,
+    lon : req.query.longitude,
+    days : 7,
+  };
+  getData(res, apiUrl, queryParams, handleData);
+}
+
+function handleData(result) {
+  const newWeather = result.body.data.map(obj => new Weather(obj));
+  return newWeather;
 }
 
 module.exports = getWeather;

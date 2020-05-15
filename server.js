@@ -1,6 +1,5 @@
 'use strict';
 
-
 // define packages
 const express = require('express');
 const cors = require('cors');
@@ -25,9 +24,9 @@ client.connect();
 
 // Handlers
 const getLocation = require('./modules/location.js');
-// const getWeather = require('./modules/weather.js');
-// const getTrails = require('./modules/trails.js');
-const getData = require('./modules/datahandle.js');
+const getWeather = require('./modules/weather.js');
+const getTrails = require('./modules/trails.js');
+const getData = require('./modules/handleData.js');
 const getMovies = require('./modules/movies.js');
 const getYelp = require('./modules/yelp');
 
@@ -37,13 +36,11 @@ app.get('/', (req, res) => {
   res.redirect('https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/');
 });
 app.get('/location', getLocation);
-app.get('/weather', (req,res) => getData(req, res, apiUrls.weather, 'data'));
-app.get('/trails', (req,res) => getData(req, res, apiUrls.trails, 'trails'));
+app.get('/weather', getWeather);
+app.get('/trails', getTrails);
 app.get('/movies', getMovies);
 app.get('/yelp', getYelp);
-
-
-app.get('/resetDatabase', (req, res) => {
+app.get('/reset', (req, res) => {
   const sqlQuery = `DROP TABLE locations;
   DROP TABLE weather;
   DROP TABLE trails;
