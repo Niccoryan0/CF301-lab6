@@ -12,15 +12,15 @@ CREATE TABLE locations (
 
 CREATE TABLE weather (
   id SERIAL PRIMARY KEY,
-  t1 TIMESTAMP,
+  ts NUMERIC,
   forecast VARCHAR(255),
   time VARCHAR(255),
-  lat VARCHAR(255)
+  latitude VARCHAR(255)
 );
 
 CREATE TABLE trails (
   id SERIAL PRIMARY KEY,
-  t1 TIMESTAMP,
+  ts NUMERIC,
   name VARCHAR(255),
   location VARCHAR(255),
   length VARCHAR(255),
