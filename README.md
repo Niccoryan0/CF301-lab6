@@ -4,14 +4,16 @@
 **Version**: 1.0.0
 
 ## Overview
-This application was developed to help users navigate around a city and learn facts about it such as the weather forecast and any nearby hikes, while showing a map of the area. The user enters in a city or area they'd like to view and will be redirected to a page containing all the previously stated information available for the city/area. It works best for cities within the US, but can generally find some data for any other areas as well.
+This application was developed to help users navigate around a city and learn facts about it such as the weather forecast and any nearby hikes, while showing a map of the area. The user enters in a city or area they'd like to view and will be redirected to a page containing all the previously stated information available for the city/area. It works best for]cities within the US, but can generally find some data for any other areas as well.
 
 ## Getting Started
 - Run NPM install from the root of this directory
 - Get keys for the required APIs:
-  - Locationiq
-  - Weatherbit.io API
+  - [Locationiq](https://locationiq.com/docs#forward-geocoding)
+  - [Weatherbit.io API](https://www.weatherbit.io/)
   - REI Trails API
+  - The Movie Database
+  - 
 - Example env file:
   - PORT=3000
   - GEOCODE_API_KEY=89324218957hafdshjqbf
