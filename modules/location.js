@@ -36,7 +36,8 @@ function getLocation(req, res){
 
 function handleSQLResult(result, city) {
   const apiUrl = 'https://us1.locationiq.com/v1/search.php';
-  if(result.rowCount) result.rows[0];
+  console.log('result from SQL query:    ', result);
+  if(result.rowCount) return result.rows[0];
   else {
     return superagent.get(apiUrl)
       .query(new LocationCon.Query(city))
