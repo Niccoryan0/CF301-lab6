@@ -4,8 +4,7 @@
 **Version**: 1.0.0
 
 ## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
-This application was developed to help users navigate around a city and learn facts about it such as the weather forecast and any nearby hikes, while showing a map of the area. The user enters in a city or area they'd like to view and will be redirected to a page containing all the previously stated information for the city/area.
+This application was developed to help users navigate around a city and learn facts about it such as the weather forecast and any nearby hikes, while showing a map of the area. The user enters in a city or area they'd like to view and will be redirected to a page containing all the previously stated information available for the city/area. It works best for cities within the US, but can generally find some data for any other areas as well.
 
 ## Getting Started
 - Run NPM install from the root of this directory
@@ -18,10 +17,11 @@ This application was developed to help users navigate around a city and learn fa
   - GEOCODE_API_KEY=89324218957hafdshjqbf
   - WEATHER_API_KEY=18295712jfsahbgrew2342
   - TRAILS_API_KEY=12376432hfarewfh123321
+  - MOVIE_API_KEY=dj21343215j1kg23313143
+  - YELP_API_KEY=n8-213421543232143412434321-4321543252g1434215421ed-32143214
   - DATABASE_URL=postgres://USER:PASSWORD@DOMAIN:PORT/DBNAME
 
 ## Architecture
-<!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
 The back end for this app utilizes JavaScript as the programming language, as well as packages such as express (for creating the server), cors (provides the Connect/Express middleware), dotenv (for reading the file), nodemon (to run a local server), Postgres (for SQL database), and superagent (collects data from APIs).
 
 ## Change Log
@@ -30,8 +30,9 @@ The back end for this app utilizes JavaScript as the programming language, as we
 05-13-2020 4pm - Application now uses an SQL database to store and reload the location API data for faster rendering.
 
 ## Credits and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
-Nicholas Carignan, Chance Harmon
+Special thanks to:
+- Nicholas Carignan
+- Chance Harmon
 
 
 ## Features
@@ -158,13 +159,13 @@ Finish time: 3:30 p.m.
 Actual time needed to complete: 15 min.
 
 
-Number and name of feature: #4 Errors
+Number and name of feature: #4 Server
 
 Estimate of time needed to complete: 45 min - 1 hr.
 
 Start time: 3:45 p.m.
 
-Finish time: _______ p.m.
+Finish time: INCOMPLETE
 
 Actual time needed to complete: ________ min.
 
