@@ -17,15 +17,15 @@ function Trail(obj){
   this.condition_date = obj.conditionDate.split(' ')[0];
   this.condition_time = obj.conditionDate.split(' ')[1];
 }
+Trail.Query = function(req) {
+  this.key = process.env.TRAIL_API_KEY;
+  this.lat = req.query.latitude;
+  this.lon = req.query.longitude;
+};
 
 function getTrail(req, res){
   const apiUrl = 'https://www.hikingproject.com/data/get-trails';
-  const queryParams = {
-    key : process.env.TRAIL_API_KEY,
-    lat : req.query.latitude,
-    lon : req.query.longitude,
-  };
-  getData(res, apiUrl, queryParams, handleData);
+  getData(res, apiUrl, new Trail.Query(req), handleData);
 }
 
 function handleData(result) {

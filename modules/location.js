@@ -36,15 +36,11 @@ function getLocation(req, res){
 
 function handleSQLResult(result, city) {
   const apiUrl = 'https://us1.locationiq.com/v1/search.php';
-  const queryParams = {
-    key : process.env.GEOCODE_API_KEY,
-    q : city,
-    format : 'json',
-  };
-  if(result.rowCount) result.rows[0];
+  console.log('result from SQL query:    ', result);
+  if(result.rowCount) return result.rows[0];
   else {
     return superagent.get(apiUrl)
-      .query(queryParams)
+      .query(new LocationCon.Query(city))
       .then(result => handleLocSuperAgent(result, city));
   }
 }
