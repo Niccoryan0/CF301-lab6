@@ -10,7 +10,6 @@ function getYelp(req,res){
   const queryParams = {
     term: 'restaurant',
     location: city
-    // latitude: req.query.latitude,
   };
   superagent.get(apiUrl)
     .set('Authorization', key)
